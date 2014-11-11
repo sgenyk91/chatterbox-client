@@ -1,21 +1,22 @@
 var app = {
   init: function(){
     $(document).ready(function(){
+      app.fetch();
       $('#sendButton').on('click', function() {
         var message = app.getMessage();
         app.send(message);
       });
-      $('.requestMsg').on('click', app.fetch);
-      $('.refreshButton').on('click', function() {
-        $('#chats').html('');
+    //  $('.requestMsg').on('click', app.fetch);
+      $('.refreshButton, .requestMsg').on('click', function() {
+        app.clearMessages();
         app.fetch();
       });
-      $('.username').on('click', app.addFriend);
 
-      setInterval(function() {
-        $('#chats').html('');
-        app.fetch();
-      }, 30000);
+
+      // setInterval(function() {
+      //   $('#chats').html('');
+      //   app.fetch();
+      // }, 30000);
     });
   },
   server: 'https://api.parse.com/1/classes/chatterbox',
@@ -28,10 +29,34 @@ var app = {
       data: 'order=-createdAt',
       success: function (data) {
         var arr = data.results;
-        console.log('data', data);
+        var storage = {};
+
+        app.clearMessages();
+        $('#roomSelect').html('');
         for(var i = 0; i < arr.length; i++){
           app.addMessage(arr[i]);
+          storage[arr[i].roomname] = arr[i].roomname;
         }
+        for (x in storage) {
+          app.addRoom(storage[x]);
+        }
+
+       $('.username').on('click', function() {
+          var boldName = $(this).text();
+          $('.'+boldName).toggleClass('bold');
+        });
+
+
+        $('.rooms').on('click', function(){
+          app.clearMessages();
+          var targetRoom = $(this).text();
+          for (var i = 0; i < arr.length; i++) {
+            if(arr[i].roomname === targetRoom){
+              app.addMessage(arr[i]);
+            }
+          };
+
+        });
       },
       error: function (data) {
         // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -65,26 +90,30 @@ var app = {
   },
   clearMessages : function() {
     $('#chats').html('');
+
   },
   addMessage : function(message) {
     var chat = "";
-    chat += "<span class='username'>" + message.username + "</span> Text: " + message.text
+    for(var prop in message){
+      message[prop] =  message[prop].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+    chat += "<span class='username "+ message.username +"'>" + message.username + "</span> Text: " + message.text
               + " Roomname: "+ message.roomname;
     $('#chats').append('<div>'+chat+'</div>');
 
   },
   addRoom : function(roomname){
-    $('#roomSelect').append('<div id='+roomname+'></div>');
+    $('#roomSelect').append('<div class="rooms">'+roomname+'</div>');
   },
-  addFriend : function(username) {
-    var arr = [];
-    arr.push(username);
-  },
+  // addFriend : function(username) {
+  //   console.log('toggleClass');
+  //   username.toggleClass('bold');
+  // },
   getMessage : function() {
     var message = document.getElementById('inputMessage').value;
     var obj = {'username': 'Silvia',
               'text' : message,
-              'roomname' : 'WHotel'
+              'roomname' : $('#createRoom').val()
               };
     return JSON.stringify(obj);
   }

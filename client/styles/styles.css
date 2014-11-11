@@ -6,7 +6,7 @@ body {
 }
 
 #main {
-    width: 500px;
+    width: 70%  ;
     margin: auto;
     text-align: left;
     background: white;
@@ -81,4 +81,17 @@ form input[type=text] {
 
 .spinner img {
     padding: 10px;
+}
+.rooms {
+    color:red;
+    cursor:pointer;
+}
+.username{
+    cursor: pointer;
+}
+.bold {
+    font-weight: bold;
+}
+textarea{
+    resize: none;
 }
