@@ -1,5 +1,5 @@
 body {
-    background: #FFCA93;
+    background: url('../images/background.png');
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
@@ -71,7 +71,9 @@ form input[type=text] {
     text-align: left;
     border-radius: 10px;
     border: 3px solid #FFA347;
+    box-shadow: 10px 10px 5px gray;
     padding: 10px 5px 10px 5px;
+    overflow: hidden;
 }
 
 .chat .username {
@@ -102,7 +104,9 @@ form input[type=text] {
 }
 textarea{
     resize: none;
+    border: solid 3px #FFA347 !important;
 }
+
 .room-in-post{
     float: right;
 }
@@ -119,4 +123,8 @@ textarea{
 }
 h3 {
     margin-top: 0px;
+    background-color: white;
+    border: 3px solid #FFA347;
+    border-radius: 5px;
 }
+

@@ -25,7 +25,7 @@ var app = {
       url: app.server,
       type: 'GET',
       contentType: 'application/json',
-      // data: 'order=-createdAt',
+      data: 'order=-createdAt',
       success: function (data) {
         var arr = data.results;
         var storage = {};
