@@ -5,18 +5,17 @@ var app = {
       $('#sendButton').on('click', function() {
         var message = app.getMessage();
         app.send(message);
+        app.fetch();
       });
     //  $('.requestMsg').on('click', app.fetch);
       $('.refreshButton, .requestMsg').on('click', function() {
         app.clearMessages();
         app.fetch();
       });
-
-
-      // setInterval(function() {
-      //   $('#chats').html('');
-      //   app.fetch();
-      // }, 30000);
+      setInterval(function() {
+        $('#chats').html('');
+        app.fetch();
+      }, 30000);
     });
   },
   server: 'https://api.parse.com/1/classes/chatterbox',
@@ -26,7 +25,7 @@ var app = {
       url: app.server,
       type: 'GET',
       contentType: 'application/json',
-      data: 'order=-createdAt',
+      // data: 'order=-createdAt',
       success: function (data) {
         var arr = data.results;
         var storage = {};
@@ -37,6 +36,7 @@ var app = {
           app.addMessage(arr[i]);
           storage[arr[i].roomname] = arr[i].roomname;
         }
+        //adding chat rooms
         for (x in storage) {
           app.addRoom(storage[x]);
         }
@@ -95,11 +95,15 @@ var app = {
   addMessage : function(message) {
     var chat = "";
     for(var prop in message){
-      message[prop] =  message[prop].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      if(message[prop] === null){
+        message[prop] = '';
+      }else{
+        message[prop] =  message[prop].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
     }
-    chat += "<span class='username "+ message.username +"'>" + message.username + "</span> Text: " + message.text
-              + " Roomname: "+ message.roomname;
-    $('#chats').append('<div>'+chat+'</div>');
+    chat += "<span class='username "+ message.username +"'>" + message.username + "</span> says: " + message.text
+              + "<span class='room-in-post'>"+ message.roomname+"</span>";
+    $('#chats').append('<div class="message">'+chat+'</div>');
 
   },
   addRoom : function(roomname){

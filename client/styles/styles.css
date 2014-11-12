@@ -1,8 +1,13 @@
 body {
-    background: #eee;
+    background: #FFCA93;
     text-align: center;
     padding: 0 25px;
     font-family: arial, sans-serif;
+}
+
+* {
+    font-size: 1.02em;
+    font-family: Georgia;
 }
 
 #main {
@@ -59,10 +64,14 @@ form input[type=text] {
     padding: 5px;
 }
 
-.chat {
+#chats, #roomSelect {
     padding: 5px;
     margin-bottom: 5px;
     background-color: #eee;
+    text-align: left;
+    border-radius: 10px;
+    border: 3px solid #FFA347;
+    padding: 10px 5px 10px 5px;
 }
 
 .chat .username {
@@ -82,16 +91,32 @@ form input[type=text] {
 .spinner img {
     padding: 10px;
 }
-.rooms {
-    color:red;
+.rooms, .username {
     cursor:pointer;
 }
-.username{
-    cursor: pointer;
+.message, .rooms {
+    margin: 7px;
 }
 .bold {
     font-weight: bold;
 }
 textarea{
     resize: none;
+}
+.room-in-post{
+    float: right;
+}
+#logo{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.btn{
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+#createRoom {
+    margin-bottom: 8px;
+}
+h3 {
+    margin-top: 0px;
 }
